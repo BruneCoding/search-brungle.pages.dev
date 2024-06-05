@@ -1,0 +1,803 @@
+<style>
+  * {
+  margin: 0;
+}
+
+body {
+  min-height: 500vh;
+  max-height: 999vh;
+}
+
+a {
+    text-decoration: none;
+    color: #007BFF; /* Example color */
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.searchResult {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .searchResult h2 {
+            margin: 0;
+        }
+        .searchResult a {
+            text-decoration: none;
+            color: blue;
+        }
+        .searchResult a:hover {
+            text-decoration: underline;
+        }
+
+.search-xd {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+
+
+.main-body-container {
+  width: 100vw;
+  height: auto;
+  display: flex;
+}
+
+.search-submit-button {
+  background: transparent;
+  padding: 16px;
+  margin-left: -16px;
+  border-radius: 0.5rem;
+  border: none;
+}
+
+.search-submit-button:hover {
+  border: 2px solid #e5e5e5;
+  margin-left: -18px;
+  background: #f7f7f7;
+}
+
+.top-search {
+  min-width: 100%;
+  background: #f7f7f7;
+  border: 2px solid rgba(49,49,49,0.15);
+  max-height: 40px;
+  max-width: 80%;
+  display: flex;
+  flex-direction: row;
+  padding: 7.5px;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.top-search-input {
+  width: 60%;
+  height: 25px;
+  background: #f7f7f7;
+  color: #313131;
+  outline: none;
+  border: none;
+  margin-right: -100px;
+}
+
+.top-search-input::placeholder {
+  color: #313131;
+}
+
+.search-sidebar {
+  transform: rotate(0deg);
+  max-height: 100%;
+  width: 10%;
+  margin-top: 60px;
+  background: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 15px;
+  align-items: center;
+}
+
+#side-sidebar, #images, #maps {
+  writing-mode: vertical-rl; 
+  transform: rotate(180deg);
+  margin: 0; 
+  font-size: 1em;
+  color: #313131;
+  padding: 20px;
+  font-family: monospace;
+  border-radius: 0.25rem;
+}
+
+#side-sidebar:hover, #images:hover, #maps:hover {
+  color: #313131;
+  background: #d9d9d9;
+  text-decoration: underline;
+}
+
+
+.icon-buttons {
+  right: 120px;
+  top: 20px;
+}
+
+.button-icon {
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border-radius: 0.25rem;
+  border: 2px solid white;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.15s cubic-bezier(.31,.01,.67,1.03);
+}
+
+.button-icon:hover {
+  transform: scale(1.0025) translateX(2px) translateY(-2px) rotate(2deg);
+  border: 3px solid #9f9f9f;
+}
+
+.button-icon img {
+  width: 45px;
+  height: 45px;
+  filter: invert(1);
+}
+
+.map-container {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+}
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#map {
+    height: 100%;
+}
+
+#search-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#search-input {
+    width: 200px;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+#search-button {
+    padding: 5px 10px;
+    background-color: rgba(0,120,212,0.5);
+    color: white;
+    border: none;
+  backdrop-filter: blur(5px);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#search-button:hover {
+  box-shadow: 0 0 rgb(0,120,212) white;
+}
+
+.glass {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.glass input {
+  background: transparent;
+  border: none;
+  color: black;
+  outline: none;
+}
+
+
+
+
+
+.ai-card {
+  width: 75%;
+  margin-top: 300px;
+  height: 25%;
+  background: #f7f7f7;
+  border: 2px solid #e9e9e9;
+  border-radius: 0.5rem;
+  z-index: 3;
+  margin-top: 30px;
+}
+
+.ai-card h1 {
+  margin-left: 15px;
+  margin-top: 15px;
+  color: #313131;
+  font-family: monospace;
+  font-size: 1.3rem;
+}
+
+.ai-card h4 {
+  margin-left: 15px;
+  margin-top: 15px;
+  color: #969696;
+  font-family: monospace;
+  font-size: 0.5rem;
+  margin-top: -2px;
+}
+
+.ai-card p {
+  margin-left: 15px;
+  margin-top: 15px;
+  color: black;
+  font-family: monospace;
+  font-size: 0.5rem;
+}
+
+.ai-card span {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  background: radial-gradient(circle, rgba(0,128,255,1) 0%, rgba(102,204,255,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#stars {
+background: radial-gradient(circle, rgba(255, 255, 0, 1) 0%, rgba(255, 255, 153, 1) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+}
+
+.search-wrapper {
+  min-height: calc(100vh - 60px);
+  max-width: 90%;
+  min-width: 89%;
+  display: grid;
+  place-items: center;
+  z-index: -1;
+  margin-top: -40px;
+  overflow-y: auto;
+}
+
+#searchResults {
+  max-width: 75%;
+  min-width: 35%;
+  padding: 20px;
+  height: 300vh;
+  background: #f7f7f7;
+  border: 2px solid #e9e9e9;
+  border-radius: 0.5rem;
+  z-index: 3;
+  margin-top: 150px;
+}
+
+#searchResults {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.searchResult {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.searchResult:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.searchResult img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.searchResult a {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007BFF;
+    text-decoration: none;
+  text-decoration: none;
+        color: #333;
+        font-weight: bold;
+}
+
+.searchResult h1 {
+  color: #007bff;
+}
+
+.searchResult a:hover {
+    text-decoration: underline;
+}
+
+.searchResult p {
+    margin-top: 8px;
+    color: #333;
+  margin: 5px 0;
+}
+
+.searchResult .date {
+    font-size: 12px;
+    color: #777;
+    margin-top: 4px;
+}
+
+iframe {
+  width: 50%;
+  height: 300px;
+}
+
+.ext-icon {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  background: #e5e5e5;
+  border-radius: 0.5rem;
+  border: 5px solid #f9f9f9;
+  z-index: 5;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scale: 1.25;
+  position: absolute;
+  right: 0;
+  top:0;
+  margin-top: 15px;
+  margin-right: 15px;
+}
+
+.ext-icon i {
+  transition: all 0.3s ease-in-out;
+}
+#underlay-above {
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 0px;
+  margin-top: 5px;
+  z-index: 99999999;
+}
+
+.underlay {
+  position: relative;
+  max-width: 300px;
+  min-width: 85px;
+  right: 0;
+  z-index: 9999999999999;
+  min-height: 85px;
+  background: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; 
+  overflow-y: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.underlay-content {
+  height: auto;
+  min-height: 50%;
+  min-width: 70%;
+  padding: 20px;
+  background: #f3f3f3;
+  display: none;
+  transition: all 0.3s ease-in-out; 
+}
+
+
+.underlay-content::-webkit-scrollbar {
+  width: 10px; 
+  z-index: 999999999999999999999;
+}
+
+
+.underlay-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.underlay-content::-webkit-scrollbar-thumb {
+  background: #8a4af3;
+  border-radius: 6px;
+  transition: all 1s ease-in-out;
+}
+
+
+.underlay-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+.underlay-content h1 {
+  font-family: monospace;
+  font-size: 2rem;
+}
+
+.underlay-content h4 {
+  font-size: 0.75rem;
+  color: rgba(49,49,49,0.5);
+  margin-top: -7.5px;
+  font-family: monospace;
+}
+
+#extTXT {
+  margin-bottom: 15px;
+}
+
+.underlay-content p {
+  font-family: monospace;
+  margin-top: -10px;
+}
+
+#lens {
+  margin-right: 100px;
+}
+
+#fat {
+  height: 85px;
+}
+
+#fat h4 {
+  font-size: 0.75rem;
+  color: rgba(49,49,49,0.5);
+  margin-top: -20px;
+  font-family: monospace;
+}
+
+#fat h1 {
+   font-family: monospace;
+  font-size: 2rem;
+}
+
+.extension-holder {
+  transition: all 0.1s ease-in-out;
+  margin-top: -15px;
+}
+
+.extension-holder:hover {
+  width: 100%;
+  margin-left: -10px;
+  padding: 10px;
+  border-radius: 0.25rem;
+  background: #d8d8d8;
+}
+
+.settings {
+    border: 3px solid #9c9c9c;
+  background: #e5e5e5;
+  color: #9c9c9c;
+  font-family: monospace;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.get {
+  border: 3px solid #5e5e5e;
+  background: #e5e5e5;
+  color: #5e5e5e;
+  font-family: monospace;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.get:hover, .settings:hover {
+  border: 3px solid #edf5e3;
+  transform: scale(1.1);
+  background: #c6d5b4;
+  color: #edf5e3;
+}
+
+</style>
+<div class="ai-card" style="display: none">
+      <h1> Generated by <span>Brungle AI</span><span id="stars">✨</span></h1>
+      <h4> Max of 200 Token Allowed </h4>
+      <p> Brungle AI is currently UNAVIALABLE. Please try again LATER.</p>
+</div><div class="search-xd">
+<Div id="underlay-above">
+<div class="underlay">
+  <div id="fat">
+    <button class="ext-icon button-icon" onclick="show()">
+<i class="fa-solid fa-shapes fa-2xl" style="color: #f9f9f9;"></i>
+</button>
+    <h1 style="font-size: 1.5rem; text-align: center;" id="extTXT"> Extensions </h1>
+    <h4 id="bfeature"style="font-size: 1rem; text-align: center"> Brungle Featured </h4>
+  </div>
+  <div class="underlay-content">
+    <div id="ext-theme-linear" class="extension-holder">
+    <h1> Linearization </h1>
+    <h4> By Brune </h4>
+    <br>
+    <p> Create Linear Backgrounds to Brungle.pages.dev EASILY with this extension! </p>
+    
+    <button id="getOne" class="get" onclick="getlinear()">GET</button>
+      <button class="settings" onclick="setlinear()">SETTINGS</button>
+    
+  </div>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <div id="ext-theme-bland" class="extension-holder">
+    <h1> Your Father </h1>
+    <h4> By Brune </h4>
+    <br>
+    <p> Removes the clutter, frees the experience </p>
+    <button class="get" onclick="getbland()">GET</button>
+      <button class="settings" onclick="setbland()">SETTINGS</button>
+  </div>
+    <br>
+    <br>
+    <hr>
+    <br>
+  <div id="ext-theme-dark" class="extension-holder">
+    <h1> Hacher </h1>
+    <h4> By Brune </h4>
+    <br>
+    <p> Enables Dark mode, allowing all elements to fit style, not only background </p>
+    <button class="get" onclick="getdark()">GET</button>
+      <button class="settings" onclick="setdark()">SETTINGS</button>
+  </div>
+  </div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://kit.fontawesome.com/cd9d6500a7.js" crossorigin="anonymous"></script>
+<div class="main-body-container">
+  <div class="top-search">
+    <button class="search-submit-button" onclick="summarizeAndSearch()">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    </button><input class="top-search-input"id="inputText" placeholder="Search More on Brungle ..."></input>
+  <div class="icon-buttons">
+    <button class="button-icon"><i class="fa-solid fa-icons"></i></button>
+    <button class="button-icon">
+      <i class="fa-solid fa-icons"></i>
+    </button>
+    <button class="button-icon" id="lens">
+      <i class="fa-solid fa-icons"></i>
+    </button>
+  </div>
+  </div>
+<div class="search-sidebar">
+  <a id="images">Images</a>
+  <a id="maps" onclick="openMaps()">Maps</a>
+    <a id="side-sidebar">Images</a>
+  <a id="side-sidebar">Maps</a>
+    <a id="side-sidebar">Images</a>
+  <a id="side-sidebar">Maps</a>
+</div>
+  <div class="search-wrapper">
+    <div class="ai-card" style="display: none">
+      <h1> Generated by <span>Brungle AI</span><span id="stars">✨</span></h1>
+      <h4> Max of 200 Token Allowed </h4>
+      <p> Brungle AI is currently UNAVIALABLE. Please try again LATER.</p>
+    </div>
+    <div id="summary"></div>
+    <div id="searchResults">
+    </div>
+  </div>
+</div>
+<div class="map-container">    
+        <div id="map"></div>
+        <div id="search-overlay" class="glass">
+            <input type="text" id="search-input" placeholder="Search for a place... (name only)">
+            <button id="search-button">Search</button>
+        </div>
+    </div>
+</div>
+
+</div>
+<script>
+  
+const icon = document.querySelector('.fa-solid');
+const box = document.querySelector('.ext-icon');
+const content = document.querySelector('.underlay-content');
+const underlay = document.querySelector('.underlay');
+const fat = document.querySelector('#fat');
+const extTXT = document.querySelector('#extTXT');
+const bfeature = document.querySelector('#bfeature');
+
+bfeature.style.display = "none";
+extTXT.style.display = "none";
+underlay.style.maxWidth = "85px";
+underlay.style.background = "transparent";
+  
+
+function show() {
+  var currentDisplayStyle = content.style.display; 
+
+  if (currentDisplayStyle === "none") {
+    bfeature.style.display = "block";
+extTXT.style.display = "block";
+underlay.style.maxWidth = "300px";
+underlay.style.background = "#f3f3f3";
+    
+    content.style.display = "block";
+    box.style.border = "5px solid #edf5e3";
+    box.style.transform = "scale(1.1)";
+    box.style.background = "#c6d5b4";
+    icon.style.color = "#edf5e3";
+    icon.className = "fa-solid fa-shapes fa-bounce fa-2xl";
+
+    setTimeout(() => {
+      icon.className = "fa-solid fa-shapes fa-2xl";
+    }, 1000); 
+  } else {
+    bfeature.style.display = "none";
+extTXT.style.display = "none";
+underlay.style.maxWidth = "85px";
+underlay.style.background = "transparent";
+    
+    content.style.display = "none";
+    box.style.border = "5px solid #f9f9f9";
+    box.style.transform = "scale(1)";
+    box.style.background = "#e5e5e5";
+    icon.style.color = "#f9f9f9";
+    icon.className = "fa-solid fa-shapes fa-bounce fa-2xl";
+
+    setTimeout(() => {
+      icon.className = "fa-solid fa-shapes fa-2xl";
+      icon.style.color = "#f9f9f9";
+      box.style.border = "5px solid #f9f9f9";
+      box.style.transform = "scale(1)";
+      box.style.background = "#e5e5e5";
+    }, 1000); 
+  }
+}
+
+
+
+
+
+
+
+
+
+
+function openMaps() {
+ window.location.href = "https://maps-brungle.pages.dev/";
+  alert('Welcome to Brungle Maps BETA! Please give  me FEEDBACK on your EXPERIENCE.')
+}
+
+
+
+
+
+const full = document.querySelector('.search-xd');
+
+document.getElementById("inputText").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        summarizeAndSearch();
+        incrementCounter();
+    }
+});
+
+function getSearchResults(query) {
+    full.style.display = "block";
+    var apiEndpoint = "https://www.googleapis.com/customsearch/v1";
+    var cx = "564f027734c9441fe";
+    var apiKey = "AIzaSyDIZJhGxmt_TZwEHATT25DmRk29VV_2xgU";
+
+    var url = apiEndpoint + "?key=" + apiKey + "&cx=" + cx + "&q=" + encodeURIComponent(query);
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            var searchResultsDiv = document.getElementById("searchResults");
+            searchResultsDiv.innerHTML = "";
+
+            if (data.items) {
+                data.items.forEach(item => {
+                    var resultElement = document.createElement("div");
+                    resultElement.classList.add("searchResult");
+
+                    var titleElement = document.createElement("h2");
+                    titleElement.innerText = item.title;
+
+                    var snippetElement = document.createElement("p");
+                    snippetElement.innerText = item.snippet;
+
+                    var dateElement = document.createElement("div");
+                    dateElement.classList.add("date");
+                    var formattedDate = item.pagemap?.metatags?.[0]?.["og:updated_time"] ? 
+                        new Date(item.pagemap.metatags[0]["og:updated_time"]).toLocaleDateString() : "Unknown date";
+                    dateElement.innerText = "Published on: " + formattedDate;
+
+                    var imageElement = document.createElement("img");
+                    if (item.pagemap?.cse_image?.[0]?.src) {
+                        imageElement.src = item.pagemap.cse_image[0].src;
+                    } else {
+                        imageElement.style.display = "none";
+                    }
+
+                    var linkElement = document.createElement("a");
+     console.log("hi");              linkElement.href = item.link;
+                  
+                  console.log("bye");
+                    linkElement.innerText = "Result from " + new URL(item.link);
+                  
+                  
+                  
+                  linkElement.style.textDecoration = "underline";
+                  
+                  linkElement.style.color = "#6a6a6a";
+                    linkElement.style.display = "block"; // Ensure the link is displayed as a block element
+                    linkElement.target = "_blank"; // Open in a new tab
+                  
+                 
+                    resultElement.appendChild(titleElement);
+                    resultElement.appendChild(dateElement);
+                    resultElement.appendChild(imageElement);
+                    resultElement.appendChild(snippetElement);
+                    resultElement.appendChild(linkElement);
+
+                    searchResultsDiv.appendChild(resultElement);
+                });
+            } else {
+                searchResultsDiv.innerHTML = "No search results found.";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching search results:", error);
+        });
+}
+
+function summarizeText(text) {
+    return text.substring(0, 100) + "...";
+}
+
+function summarizeAndSearch() {
+    var inputText = document.getElementById("inputText").value;
+    var summaryDiv = document.getElementById("summary");
+    var searchResultsDiv = document.getElementById("searchResults");
+
+    summaryDiv.innerHTML = "";
+    searchResultsDiv.innerHTML = "";
+
+    var summary = summarizeText(inputText);
+    summaryDiv.innerText = "Searching Results for " + summary + " on Brungle!";
+
+    getSearchResults(inputText);
+  console.log(query);
+}
+
+function SummarizeAndSearch() {
+    var inputText = document.getElementById("searchInput").value;
+    var summaryDiv = document.getElementById("summary");
+    var searchResultsDiv = document.getElementById("searchResults");
+
+    summaryDiv.innerHTML = "";
+    searchResultsDiv.innerHTML = "";
+
+    var summary = summarizeText(inputText);
+    summaryDiv.innerText = "Searching Results for " + summary + " on Brungle!";
+
+    getSearchResults(inputText);
+  console.log(query);
+}
+
+</script>
